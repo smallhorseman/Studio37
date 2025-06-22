@@ -1,0 +1,6 @@
+name = "studio37-web-worker"
+main = "workers-site/index.js"
+compatibility_date = "2024-06-22"
+
+account_id = "47911f0a8044df17dd855e88435fb9e2"
+
