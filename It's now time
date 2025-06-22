@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { Home, Info, Briefcase, Mail, Menu, X, Instagram, Dribbble, Linkedin, Award, Camera, Monitor } from 'lucide-react';
 
+const navItems = [
+  { name: 'Home', icon: Home, id: 'home' },
+  { name: 'About', icon: Info, id: 'about' },
+  { name: 'Services', icon: Briefcase, id: 'services' },
+  { name: 'Contact', icon: Mail, id: 'contact' },
+];
+
 // Main App Component
 const App = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -20,13 +27,6 @@ const App = () => {
         return <HomeSection />;
     }
   };
-
-  const navItems = [
-    { name: 'Home', icon: Home, id: 'home' },
-    { name: 'About', icon: Info, id: 'about' },
-    { name: 'Services', icon: Briefcase, id: 'services' },
-    { name: 'Contact', icon: Mail, id: 'contact' },
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-700 text-gray-100 font-sans flex flex-col">
@@ -63,6 +63,7 @@ const App = () => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
