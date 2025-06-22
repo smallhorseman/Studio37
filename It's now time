@@ -1,1 +1,342 @@
-git init
+import React, { useState } from 'react';
+import { Home, Info, Briefcase, Mail, Menu, X, Instagram, Dribbble, Linkedin, Award, Camera, Monitor } from 'lucide-react';
+
+// Main App Component
+const App = () => {
+  const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case 'home':
+        return <HomeSection />;
+      case 'about':
+        return <AboutSection />;
+      case 'services':
+        return <ServicesSection />;
+      case 'contact':
+        return <ContactSection />;
+      default:
+        return <HomeSection />;
+    }
+  };
+
+  const navItems = [
+    { name: 'Home', icon: Home, id: 'home' },
+    { name: 'About', icon: Info, id: 'about' },
+    { name: 'Services', icon: Briefcase, id: 'services' },
+    { name: 'Contact', icon: Mail, id: 'contact' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-700 text-gray-100 font-sans flex flex-col">
+      {/* Header / Navigation */}
+      <header className="bg-gray-800 bg-opacity-80 backdrop-blur-sm shadow-lg p-4 sticky top-0 z-50">
+        <nav className="container mx-auto flex justify-between items-center">
+          {/* Logo - Replaced text with image */}
+          <div className="flex-shrink-0">
+            <img
+              src="https://generativelanguage.googleapis.com/v1beta/files/Gemini_Generated_Image_clxkwiclxkwiclxk.jpg-37cc1f4c-fecd-471b-b84b-0f8cacba8250"
+              alt="Studio 37 Logo"
+              className="h-10 sm:h-12 w-auto" /* Adjust height for responsiveness */
+              onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/150x50/374151/FFFFFF?text=Studio+37"; }}
+            />
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex space-x-6">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveSection(item.id)}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-300
+                  ${activeSection === item.id ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+              >
+                <item.icon size={20} />
+                <span className="font-medium">{item.name}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </nav>
+
+        {/* Mobile Navigation */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-4 space-y-2">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveSection(item.id);
+                  setIsMobileMenuOpen(false); // Close menu on selection
+                }}
+                className={`flex items-center w-full space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-300
+                  ${activeSection === item.id ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+              >
+                <item.icon size={20} />
+                <span className="font-medium text-lg">{item.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* Main Content Area */}
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
+        {renderSection()}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 bg-opacity-80 backdrop-blur-sm p-6 mt-auto">
+        <div className="container mx-auto text-center text-gray-400">
+          <p>&copy; {new Date().getFullYear()} Studio 37. All rights reserved.</p>
+          <div className="flex justify-center space-x-4 mt-4">
+            <a href="https://instagram.com/yourstudio37" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">
+              <Instagram size={24} />
+            </a>
+            <a href="https://dribbble.com/yourstudio37" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">
+              <Dribbble size={24} />
+            </a>
+            <a href="https://linkedin.com/company/yourstudio37" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">
+              <Linkedin size={24} />
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+// Home Section Component
+const HomeSection = () => (
+  <section id="home" className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+    <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 animate-fadeInDown">
+      Innovate. Create. Inspire.
+    </h1>
+    <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl animate-fadeInUp delay-200">
+      Your vision, our expertise. We bring ideas to life with cutting-edge design and development.
+    </p>
+    <button
+      onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}
+      className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 animate-fadeInUp delay-400"
+    >
+      Explore Our Services
+    </button>
+  </section>
+);
+
+// About Section Component
+const AboutSection = () => (
+  <section id="about" className="bg-gray-800 rounded-xl p-8 md:p-12 shadow-2xl animate-fadeIn">
+    <h2 className="text-4xl font-bold text-white mb-6 text-center">About Studio 37</h2>
+    <div className="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <p className="text-lg text-gray-300 mb-4 leading-relaxed">
+          At Studio 37, we are a passionate team of creators, designers, and developers dedicated to transforming ideas into impactful digital experiences. Founded with a commitment to excellence and innovation, we thrive on challenges and deliver solutions that resonate.
+        </p>
+        <p className="text-lg text-gray-300 leading-relaxed">
+          Our philosophy centers on a collaborative approach, ensuring our clients are integral to every step of the creative process. From initial concept to final deployment, we work closely to achieve outstanding results that not only meet but exceed expectations.
+        </p>
+      </div>
+      <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-xl">
+        <img
+          src="https://placehold.co/600x400/374151/FFFFFF?text=Our+Creative+Team"
+          alt="Our Creative Team"
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/600x400/374151/FFFFFF?text=Image+Unavailable"; }}
+        />
+        <div className="absolute inset-0 bg-indigo-800 bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+          <span className="text-white text-2xl font-bold">Innovation in Action</span>
+        </div>
+      </div>
+    </div>
+    <div className="mt-10 pt-8 border-t border-gray-700">
+      <h3 className="text-3xl font-bold text-white mb-6 text-center">Our Core Values</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div className="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+          <Award size={48} className="text-indigo-400 mx-auto mb-4" />
+          <h4 className="text-xl font-semibold text-white mb-2">Excellence</h4>
+          <p className="text-gray-300">Committed to delivering top-tier quality in every project.</p>
+        </div>
+        <div className="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+          <Camera size={48} className="text-indigo-400 mx-auto mb-4" />
+          <h4 className="text-xl font-semibold text-white mb-2">Creativity</h4>
+          <p className="text-gray-300">Pushing boundaries to craft unique and innovative solutions.</p>
+        </div>
+        <div className="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+          <Monitor size={48} className="text-indigo-400 mx-auto mb-4" />
+          <h4 className="text-xl font-semibold text-white mb-2">Collaboration</h4>
+          <p className="text-gray-300">Working hand-in-hand with clients for shared success.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// Services Section Component
+const ServicesSection = () => (
+  <section id="services" className="bg-gray-800 rounded-xl p-8 md:p-12 shadow-2xl animate-fadeIn">
+    <h2 className="text-4xl font-bold text-white mb-6 text-center">Our Services</h2>
+    <p className="text-lg text-gray-300 mb-10 text-center max-w-2xl mx-auto">
+      We offer a comprehensive suite of creative and technical services tailored to meet your unique needs and elevate your brand's digital presence.
+    </p>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Service Card 1 */}
+      <div className="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center">
+        <Briefcase size={56} className="text-indigo-400 mb-4" />
+        <h3 className="text-2xl font-semibold text-white mb-3">Web Design & Development</h3>
+        <p className="text-gray-300 text-base">
+          Crafting stunning, responsive, and user-friendly websites that captivate your audience and drive engagement. From custom builds to CMS integrations.
+        </p>
+      </div>
+
+      {/* Service Card 2 */}
+      <div className="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center">
+        <Camera size={56} className="text-indigo-400 mb-4" />
+        <h3 className="text-2xl font-semibold text-white mb-3">Brand Identity & Graphics</h3>
+        <p className="text-gray-300 text-base">
+          Developing cohesive brand identities, logos, and visual assets that tell your story and leave a lasting impression.
+        </p>
+      </div>
+
+      {/* Service Card 3 */}
+      <div className="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center">
+        <Monitor size={56} className="text-indigo-400 mb-4" />
+        <h3 className="text-2xl font-semibold text-white mb-3">Digital Marketing & SEO</h3>
+        <p className="text-gray-300 text-base">
+          Boosting your online visibility and reaching your target audience through strategic SEO, content marketing, and social media campaigns.
+        </p>
+      </div>
+
+      {/* Service Card 4 (example of more services) */}
+      <div className="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center">
+        <Award size={56} className="text-indigo-400 mb-4" />
+        <h3 className="text-2xl font-semibold text-white mb-3">UI/UX Design</h3>
+        <p className="text-gray-300 text-base">
+          Creating intuitive and engaging user interfaces and experiences that prioritize your users' needs and satisfaction.
+        </p>
+      </div>
+      {/* Add more service cards as needed */}
+    </div>
+  </section>
+);
+
+// Contact Section Component
+const ContactSection = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('Sending...');
+
+    // In a real application, you would send this data to a backend (e.g., a Cloudflare Worker acting as an API endpoint, or a third-party service).
+    // For this example, we'll simulate a successful submission.
+    try {
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // In a real scenario, you'd send formData to your backend, perhaps another Worker
+      // const response = await fetch('/api/contact', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(formData),
+      // });
+      // if (response.ok) {
+      //   setStatus('Message sent successfully!');
+      //   setFormData({ name: '', email: '', message: '' });
+      // } else {
+      //   setStatus('Failed to send message. Please try again.');
+      // }
+
+      setStatus('Message sent successfully!');
+      setFormData({ name: '', email: '', message: '' }); // Clear form on success
+
+    } catch (error) {
+      console.error('Contact form submission error:', error);
+      setStatus('An error occurred. Please try again later.');
+    }
+  };
+
+  return (
+    <section id="contact" className="bg-gray-800 rounded-xl p-8 md:p-12 shadow-2xl animate-fadeIn">
+      <h2 className="text-4xl font-bold text-white mb-6 text-center">Get in Touch</h2>
+      <p className="text-lg text-gray-300 mb-10 text-center max-w-2xl mx-auto">
+        Have a project in mind or just want to say hello? Fill out the form below, and we'll get back to you shortly.
+      </p>
+
+      <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
+        <div>
+          <label htmlFor="name" className="block text-gray-300 text-sm font-medium mb-2">
+            Your Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300"
+          />
+        </div>
+        <div>
+          <label htmlFor="email" className="block text-gray-300 text-sm font-medium mb-2">
+            Your Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300"
+          />
+        </div>
+        <div>
+          <label htmlFor="message" className="block text-gray-300 text-sm font-medium mb-2">
+            Your Message
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300"
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+          disabled={status === 'Sending...'}
+        >
+          {status === 'Sending...' ? 'Sending...' : 'Send Message'}
+        </button>
+        {status && status !== 'Sending...' && (
+          <p className={`mt-4 text-center ${status.includes('successfully') ? 'text-green-400' : 'text-red-400'}`}>
+            {status}
+          </p>
+        )}
+      </form>
+    </section>
+  );
+};
+
+export default App;
